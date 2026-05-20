@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MindLap PTSD Test</title>
+  <title>MindLap OCD Test</title>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css"/>
 
@@ -172,11 +172,11 @@
       <span class="mind">Mind</span><span class="lap">Lap</span>
     </div>
 
-    <h1>PTSD Self-Awareness Test</h1>
+    <h1>OCD Self-Awareness Test</h1>
 
     <div class="subtitle">
-      A simple trauma and stress self-awareness screening tool.<br>
-      Answer based on your experiences during the last month.
+      A simple self-awareness screening tool.<br>
+      Answer based on your experiences during the last 2 weeks.
     </div>
 
     <div class="field">
@@ -210,7 +210,7 @@
 
     <div class="notice">
       This test is for self-awareness purposes only and not a medical diagnosis.
-      If distress is affecting your daily life, consider speaking with a qualified mental health professional.
+      If obsessive thoughts or repetitive behaviors are affecting your daily life, consider speaking with a qualified mental health professional.
     </div>
 
   </div>
@@ -220,21 +220,21 @@
 
   <script>
     const questions = [
-      "Do distressing memories suddenly come back to you unexpectedly?",
-      "Do you experience nightmares related to stressful or traumatic events?",
-      "Do certain sounds, places, or situations trigger emotional discomfort?",
-      "Do you avoid thinking or talking about painful experiences?",
-      "Do you feel emotionally numb or disconnected from others?",
-      "Do you easily become startled or feel constantly alert?",
-      "Do you often feel unsafe even in normal situations?",
-      "Do you struggle to sleep because your mind feels restless?",
-      "Do you feel guilt or blame yourself for past experiences?",
-      "Do you feel emotionally exhausted frequently?",
-      "Do sudden memories affect your mood strongly?",
-      "Do you avoid crowded or stressful environments?",
-      "Do you feel difficulty trusting people after painful experiences?",
-      "Do emotional triggers affect your daily functioning?",
-      "Do you feel emotionally overwhelmed without fully understanding why?"
+      "Do you have repeated thoughts that keep coming back even when you do not want them to?",
+      "Do you feel the need to check things more than once?",
+      "Do you spend a lot of time worrying about contamination, dirt, or germs?",
+      "Do you repeat certain actions or rituals to feel relieved?",
+      "Do you feel distressed when things are not arranged in a certain way?",
+      "Do you need to count, tap, or repeat actions mentally or physically?",
+      "Do you struggle to stop unwanted thoughts from entering your mind?",
+      "Do you feel the need to seek reassurance from others often?",
+      "Do you recheck doors, switches, messages, or tasks repeatedly?",
+      "Do these thoughts or actions take up a lot of your time?",
+      "Do you feel anxious if you are unable to complete a ritual or routine?",
+      "Do you avoid situations because of obsessive worries?",
+      "Do you feel mentally exhausted from trying to control your thoughts?",
+      "Do these patterns affect your work, study, or daily routine?",
+      "Do you feel unable to easily let go of intrusive thoughts?"
     ];
 
     const form = document.getElementById("testForm");
@@ -264,7 +264,7 @@
       utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
     });
 
-    let whatsappMessage = "Hello, I completed the MindLap PTSD Self-Awareness Test and would like to connect with your team.";
+    let whatsappMessage = "Hello, I completed the MindLap OCD Self-Awareness Test and would like to connect with your team.";
 
     async function submitTest() {
       const fullname = document.getElementById("fullname").value.trim();
@@ -293,17 +293,17 @@
       let desc = "";
 
       if (total <= 10) {
-        title = "Mild Stress Response";
-        desc = "You may be experiencing some stress-related symptoms, but they may be mild. Rest, support, and self-care may help.";
+        title = "Mild OCD Traits";
+        desc = "You may occasionally experience intrusive thoughts or repetitive behaviors, but they may be mild.";
       } else if (total <= 20) {
-        title = "Moderate Trauma Symptoms";
-        desc = "You may be showing some noticeable trauma-related signs. A supportive conversation or professional guidance may help.";
+        title = "Moderate OCD Traits";
+        desc = "You may be showing noticeable obsessive or repetitive patterns that could be affecting your routine.";
       } else if (total <= 30) {
-        title = "High Emotional Distress";
-        desc = "Your emotional wellbeing may be strongly affected. Professional support could be beneficial.";
+        title = "High OCD Impact";
+        desc = "Your obsessive thoughts or repetitive behaviors may be significantly affecting daily functioning.";
       } else {
-        title = "Severe PTSD Symptoms";
-        desc = "Your emotional state may be strongly affecting your daily functioning and wellbeing. Speaking with a qualified mental health professional is strongly recommended.";
+        title = "Severe OCD Symptoms";
+        desc = "Your obsessive thoughts or repetitive behaviors may strongly impact your daily life. Professional support could be beneficial.";
       }
 
       document.getElementById("scoreText").innerText = `Hey ${fullname}, your score is ${total}/45`;
@@ -325,7 +325,7 @@
           score: total,
           result: title,
           answers: Array.from({ length: 15 }, (_, i) => document.getElementById(`q${i + 1}`).value),
-          type: "PTSD Test"
+          type: "OCD Test"
         })
       });
 
