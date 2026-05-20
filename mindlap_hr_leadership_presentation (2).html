@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mindlap Leadership Presentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07111f;
+      --panel: rgba(255,255,255,0.08);
+      --panel-2: rgba(255,255,255,0.12);
+      --text: #f5f7fb;
+      --muted: rgba(245,247,251,0.72);
+      --accent: #9B5DE5;
+      --accent-2: #B983FF;
+      --good: #57e39a;
+      --warn: #ffcc66;
+      --shadow: 0 20px 60px rgba(0,0,0,0.35);
+      --radius: 28px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(155,93,229,0.25), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(185,131,255,0.22), transparent 28%),
+        linear-gradient(180deg, #020202 0%, #0a0a0f 100%);
+      overflow: hidden;
+    }
+
+    .deck {
+      position: relative;
+      height: 100vh;
+      width: 100vw;
+      display: grid;
+      grid-template-rows: 1fr auto;
+    }
+
+    .slides {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: clamp(24px, 4vw, 56px);
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      opacity: 0;
+      transform: translateX(25px) scale(0.985);
+      transition: opacity 280ms ease, transform 280ms ease;
+      pointer-events: none;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .frame {
+      width: min(1200px, 100%);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.06));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      padding: clamp(24px, 3vw, 44px);
+      display: grid;
+      gap: 22px;
+      align-content: start;
+      overflow: auto;
+    }
+
+    .topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      color: var(--muted);
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    h1, h2, h3, p { margin: 0; }
+
+    h1 {
+      font-size: clamp(40px, 6vw, 78px);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+      max-width: 12ch;
+    }
+
+    h2 {
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+    }
+
+    h3 {
+      font-size: clamp(22px, 2.4vw, 28px);
+      line-height: 1.1;
+    }
+
+    .lede {
+      max-width: 900px;
+      font-size: clamp(18px, 2.1vw, 24px);
+      line-height: 1.55;
+      color: rgba(245,247,251,0.88);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      border-radius: 22px;
+      padding: 20px;
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,0.10);
+      min-height: 100%;
+    }
+
+    .card strong {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .card p,
+    .card li {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    .list {
+      display: grid;
+      gap: 12px;
+      padding-left: 18px;
+      margin: 0;
+    }
+
+    .list li { padding-left: 2px; }
+
+    .highlight {
+      background: linear-gradient(90deg, rgba(98,208,255,0.18), rgba(139,123,255,0.18));
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      padding: 18px 20px;
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    .cta-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 18px;
+      border-radius: 16px;
+      text-decoration: none;
+      color: #03111e;
+      background: linear-gradient(135deg, #9B5DE5, #C77DFF);
+      font-weight: 800;
+      box-shadow: 0 10px 30px rgba(98,208,255,0.22);
+      transition: transform 160ms ease, filter 160ms ease;
+      width: fit-content;
+    }
+
+    .cta-link:hover { transform: translateY(-1px); filter: brightness(1.03); }
+
+    .small {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .footerbar {
+      display: grid;
+      grid-template-columns: auto 1fr auto auto;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      border-top: 1px solid rgba(255,255,255,0.12);
+      background: rgba(4,8,15,0.40);
+      backdrop-filter: blur(14px);
+    }
+
+    .navbtn {
+      appearance: none;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      padding: 12px 16px;
+      border-radius: 14px;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 700;
+    }
+
+    .navbtn:disabled { opacity: 0.38; cursor: not-allowed; }
+
+    .progress {
+      position: relative;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.10);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .progress > span {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 10%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      border-radius: inherit;
+      transition: width 280ms ease;
+    }
+
+    .counter {
+      min-width: 120px;
+      text-align: right;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .kicker {
+      color: var(--accent);
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .pillrow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .pill {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.09);
+      border: 1px solid rgba(255,255,255,0.09);
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .line {
+      height: 1px;
+      background: rgba(255,255,255,0.12);
+      width: 100%;
+    }
+
+    .muted-list {
+      display: grid;
+      gap: 10px;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    .quote {
+      font-size: clamp(22px, 3vw, 34px);
+      font-weight: 800;
+      line-height: 1.2;
+      max-width: 18ch;
+    }
+
+    @media (max-width: 920px) {
+      .grid-2, .grid-3, .two-col { grid-template-columns: 1fr; }
+      .footerbar { grid-template-columns: 1fr 1fr; }
+      .progress { grid-column: 1 / -1; order: 3; }
+      .counter { grid-column: 1 / -1; order: 4; text-align: left; }
+      .slide { padding: 16px; }
+      .frame { padding: 20px; }
+      h1 { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck">
+    <div class="slides" id="slides">
+      <section class="slide active">
+        <div class="frame">
+          <div class="topline">
+            <div class="badge">Mindlap Leadership Session</div>
+            <div>Internal Vision + HR Alignment</div>
+          </div>
+          <div class="two-col">
+            <div style="display:grid; gap:18px; align-content:start;">
+              <div style="font-size:64px; font-weight:700; letter-spacing:-0.06em; line-height:1; margin-bottom:10px;">
+                <span style="color:#ffffff;">Mind</span><span style="color:#9B5DE5;">Lap</span>
+              </div>
+              <div class="kicker">All employees meeting</div>
+              <h1>Where Mind Finds Comfort.</h1>
+              <p class="lede">A new working structure for Mindlap: clear vision, stronger HR systems, better discipline, and one shared standard for growth from today onward.</p>
+            </div>
+            <div class="card" style="display:grid; gap:14px; align-content:start;">
+              <strong>What this meeting sets</strong>
+              <p>Clarity on company direction, role expectations, office etiquette, reporting flow, and the new HR process.</p>
+              <div class="pillrow">
+                <span class="pill">Vision</span>
+                <span class="pill">Structure</span>
+                <span class="pill">HR</span>
+                <span class="pill">DWR</span>
+                <span class="pill">Growth</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide">
+        <div class="frame">
+          <div class="kicker">01 — Vision</div>
+          <h2>Our purpose is to provide quality consultation to society.</h2>
+          <div class="grid-2">
+            <div class="highlight" style="background:linear-gradient(135deg, rgba(155,93,229,0.22), rgba(255,255,255,0.06));">
+              <strong>Company motto</strong>
+              <div style="font-size:22px; font-weight:800; margin-top:8px;">Where Mind Finds Comfort</div>
+            </div>
+            <div class="card">
+              <strong>Message to the team</strong>
+              <p>This company is not only about numbers. It is about trust, service quality, and creating a professional experience that people remember.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide">
+        <div class="frame">
+          <div class="kicker">02 — Growth target</div>
+          <h2>We are moving from 6–7 sessions per day to 10 sessions per day as the first step.</h2>
+          <div class="grid-3">
+            <div class="card"><strong>Current reality</strong><p>We already have a working base. The next stage is to make it stable, repeatable, and professional.</p></div>
+            <div class="card"><strong>What growth needs</strong><p>Structure, punctuality, ownership, consistent follow-up, and smooth internal coordination.</p></div>
+            <div class="card"><strong>What changes today</strong><p>Clear systems, better discipline, and one standard for how everyone works together.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide">
+        <div class="frame">
+          <div class="kicker">03 — Culture</div>
+          <h2>Office etiquette and working discipline will be followed from today onward.</h2>
+          <div class="grid-2">
+            <div class="card">
+              <strong>Professional behavior</strong>
+              <ul class="muted-list">
+                <li>Respectful communication</li>
+                <li>On-time reporting and attendance</li>
+                <li>No gossip, conflict, or confusion culture</li>
+                <li>Neat workspace and responsible phone use</li>
+              </ul>
+            </div>
+            <div class="card">
+              <strong>Why this matters</strong>
+              <p>Discipline is not pressure. It is the foundation that keeps the team organized as the company grows.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide">
+        <div class="frame">
+          <div class="kicker">04 — HR system</div>
+          <h2>The new HR process is now part of our working structure.</h2>
+          <div class="two-col">
+            <div class="card" style="display:grid; gap:14px;">
+              <strong>Form link</strong>
+              <p>This form will be used for HR-related structure and employee process handling. Open it directly from the presentation below.</p>
+              <a class="cta-link" href="https://forms.gle/SDNVRcGQP5bkkjfH6" target="_blank" rel="noopener noreferrer">
+                Open HR System Form ↗
+              </a>
+              <div class="small">Link: https://forms.gle/SDNVRcGQP5bkkjfH6</div>
+            </div>
+            <div class="card">
+              <strong>What the HR system covers</strong>
+              <ul class="muted-list">
+                <li>Attendance and leave communication</li>
+                <li>Employee reporting and hierarchy</li>
+                <li>Performance tracking and accountability</li>
+                <li>Working time and process clarity</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide">
+        <div class="frame">
+          <div class="kicker">05 — Daily Work Report</div>
+          <h2>DWR will help us see progress, gaps, and team performance clearly.</h2>
+          <div class="grid-2">
+            <div class="card">
+              <strong>DWR purpose</strong>
+              <ul class="muted-list">
+                <li>Daily visibility for management</li>
+                <li>Better team coordination</li>
+                <li>Faster problem solving</li>
+                <li>Accountability without confusion</li>
+              </ul>
+            </div>
+            <div class="card">
+              <strong>Important message</strong>
+              <p>DWR is not just a formality. It is a working tool that helps us manage growth professionally.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide">
+        <div class="frame">
+          <div class="kicker">06 — Working time</div>
+          <h2>Working time process must be consistent, clean, and understood by everyone.</h2>
+          <div class="grid-3">
+            <div class="card"><strong>Start and end discipline</strong><p>Everybody should know the timing standards and follow them properly.</p></div>
+            <div class="card"><strong>Break and handover flow</strong><p>Work should not get disturbed because of unclear shift or handover behavior.</p></div>
+            <div class="card"><strong>Response expectations</strong><p>Internal response and client handling should happen within a reliable time frame.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide">
+        <div class="frame">
+          <div class="kicker">07 — Performance culture</div>
+          <h2>We are building a company where ownership matters.</h2>
+          <div class="grid-2">
+            <div class="card">
+              <strong>What ownership means</strong>
+              <ul class="muted-list">
+                <li>Do not wait for repeated instructions</li>
+                <li>Take responsibility for outcomes</li>
+                <li>Bring solutions, not only problems</li>
+                <li>Support team goals, not individual confusion</li>
+              </ul>
+            </div>
+            <div class="card">
+              <strong>How we measure growth</strong>
+              <p>Sessions, follow-up quality, attendance, operational discipline, and team execution will matter more and more as the company grows.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide">
+        <div class="frame">
+          <div class="kicker">08 — Client experience</div>
+          <h2>Every interaction should create trust and comfort.</h2>
+          <div class="two-col">
+            <div class="quote">Professional consultation creates confidence.</div>
+            <div class="card">
+              <strong>Standards to follow</strong>
+              <ul class="muted-list">
+                <li>Empathy and respectful communication</li>
+                <li>Confidentiality and care</li>
+                <li>Clear follow-up quality</li>
+                <li>Consistent brand experience</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide">
+        <div class="frame">
+          <div class="kicker">09 — Closing</div>
+          <div style="font-size:52px; font-weight:700; letter-spacing:-0.06em; line-height:1; margin-bottom:10px;">
+            <span style="color:#ffffff;">Mind</span><span style="color:#9B5DE5;">Lap</span>
+          </div>
+          <h2>We are not changing Mindlap’s identity. We are strengthening it.</h2>
+          <div class="grid-2">
+            <div class="highlight" style="background:linear-gradient(135deg, rgba(155,93,229,0.22), rgba(255,255,255,0.06));">
+              <strong>Final direction</strong>
+              <div style="margin-top:10px; line-height:1.6; font-size:18px; color:rgba(245,247,251,0.92);">Vision, discipline, structure, and team unity will take us from a functioning setup to a professional organization.</div>
+            </div>
+            <div class="card">
+              <strong>Next steps after the meeting</strong>
+              <p>Share the HR policy, reporting format, work timing rules, and department responsibility structure in written form.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="footerbar">
+      <button class="navbtn" id="prevBtn">← Prev</button>
+      <button class="navbtn" id="fsBtn">⤢ Full Screen</button>
+      <div class="progress" aria-label="Presentation progress"><span id="progressBar"></span></div>
+      <div class="counter" id="counter">1 / 9</div>
+      <button class="navbtn" id="nextBtn">Next →</button>
+    </div>
+  </div>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const counter = document.getElementById('counter');
+    const progressBar = document.getElementById('progressBar');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const fsBtn = document.getElementById('fsBtn');
+    let index = 0;
+
+    function render() {
+      slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+      counter.textContent = `${index + 1} / ${slides.length}`;
+      progressBar.style.width = `${((index + 1) / slides.length) * 100}%`;
+      prevBtn.disabled = index === 0;
+      nextBtn.disabled = index === slides.length - 1;
+      fsBtn.textContent = document.fullscreenElement ? 'Exit Full Screen' : '⤢ Full Screen';
+      document.title = `Mindlap Presentation — Slide ${index + 1}`;
+    }
+
+    function go(delta) {
+      index = Math.min(slides.length - 1, Math.max(0, index + delta));
+      render();
+    }
+
+    prevBtn.addEventListener('click', () => go(-1));
+    nextBtn.addEventListener('click', () => go(1));
+    fsBtn.addEventListener('click', async () => {
+      const el = document.documentElement;
+      try {
+        if (!document.fullscreenElement && el.requestFullscreen) {
+          await el.requestFullscreen();
+        } else if (document.exitFullscreen) {
+          await document.exitFullscreen();
+        }
+      } catch (err) {
+        console.warn('Fullscreen unavailable', err);
+      }
+    });
+
+    document.addEventListener('fullscreenchange', render);
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') go(1);
+      if (e.key === 'ArrowLeft' || e.key === 'PageUp') go(-1);
+      if (e.key.toLowerCase() === 'f') {
+        const el = document.documentElement;
+        if (!document.fullscreenElement && el.requestFullscreen) el.requestFullscreen();
+        else if (document.exitFullscreen) document.exitFullscreen();
+      }
+    });
+
+    render();
+  </script>
+</body>
+</html>
